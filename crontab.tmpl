@@ -1,0 +1,7 @@
+SHELL=/bin/bash
+BASH_ENV=/container.env
+
+# Execute every hour
+{{ .Env.CRON_STRINGS }} root /execute-singer.sh >> /var/log/cron.log
+
+# An empty line is required at the end of this file for a valid cron file.

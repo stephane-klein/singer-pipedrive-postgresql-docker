@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./volumes/postgres/:/var/lib/postgresql/data/
+
+  singer:
+    image: stephaneklein/singer-pipedrive-postgresql:latest
+    command: sleep 10d
+    environment:
+      PIPEDRIVE_START_DATE: "2020-01-01T00:00:00Z"
+      PIPEDRIVE_API_TOKEN: "secret"
+      POSTGRES_HOSTNAME: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_DBNAME: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_SCHEMA: public
+      CRON_STRINGS: "0 * * * *"
+    volumes:
+      - ./states/:/states/
